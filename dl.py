@@ -5,11 +5,23 @@ import imghdr
 import os
 from bs4 import BeautifulSoup
 
+dirs = ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k",
+        "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v",
+        "w", "x", "y", "z", "0", "1", "2", "3", "4", "5", "6",
+        "7", "8", "9", "_", "()"]
 
 if len(sys.argv) <= 2:
     raise Exception("Usage: %s cutoff URL1 [URL2 URL3 ...]" % sys.argv[0])
 
-os.utime("visited.dat", None)
+if not os.path.exists("visited.dat"):
+    os.mknod("visited.dat")
+
+if not os.path.exists("images/"):
+    os.mkdir("images")
+
+for d in dirs:
+    if not os.path.exists("images/%s" % d):
+        os.mkdir("images/%s" % d)
 
 visited = open("visited.dat").read().splitlines()
 new_visited = []
