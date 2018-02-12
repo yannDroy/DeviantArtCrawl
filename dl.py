@@ -23,7 +23,9 @@ for d in dirs:
     if not os.path.exists("images/%s" % d):
         os.mkdir("images/%s" % d)
 
-visited = open("visited.dat").read().splitlines()
+file_visited = open("visited.dat", "a+")
+
+visited = file_visited.read().splitlines()
 new_visited = []
 to_visit = []
 cutoff = int(sys.argv[1])
@@ -61,6 +63,8 @@ while len(to_visit) > 0 and count < cutoff:
                                            imghdr.what("images/%s/%s" % (dirname, name))))
             
             new_visited.append(url)
+            file_visited.write(url)
+            file_visited.write("\n")
         
             next_images = soup.findAll("div", {"class": "tt-crop thumb"})
     
@@ -72,11 +76,5 @@ while len(to_visit) > 0 and count < cutoff:
     
     else:
         print(" (Ignoring: '%s')" % url)
-
-file_visited = open("visited.dat", "a")
-
-for f in new_visited:
-    file_visited.write(f)
-    file_visited.write("\n")
 
 file_visited.close()
